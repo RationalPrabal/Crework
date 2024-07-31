@@ -26,6 +26,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
   });
   const [title, setTitle] = useState("");
   const dispatch: Dispatch<any> = useDispatch();
+
   useEffect(() => {
     if (status) {
       setFormValues((prevValues) => ({ ...prevValues, status }));
@@ -92,6 +93,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
                 name="status"
                 value={formValues.status}
                 onChange={handleChange}
+                disabled={Boolean(status)}
               >
                 <option value="">Not selected</option>
                 <option value="toDo">To do</option>
@@ -124,7 +126,7 @@ const DrawerComponent: React.FC<DrawerComponentProps> = ({
               <input
                 type="date"
                 name="deadline"
-                value={formValues.deadline}
+                value={formValues.deadline === 0 ? "" : new Date(formValues.deadline).toISOString().split("T")[0]}
                 onChange={handleDateChange}
               />
             </div>

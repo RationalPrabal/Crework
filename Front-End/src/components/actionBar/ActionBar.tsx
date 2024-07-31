@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { Dropdown, Menu } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import "./ActionBar.css";
 import CreateTaskBtn from "../buttons/CreateTaskBtn";
 import AddTaskDrawer from "../drawer/AddTaskDrawer";
@@ -41,12 +40,17 @@ const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="Low-">Low</Menu.Item>
-      <Menu.Item key="Medium-">Medium</Menu.Item>
-      <Menu.Item key="Urgent-">Urgent</Menu.Item>
-      <Menu.Item key="-today">Deadline Today</Menu.Item>
-      <Menu.Item key="-missed">Deadline Missed</Menu.Item>
-      <Menu.Item key="-no-deadline">No Deadline</Menu.Item>
+      <Menu.ItemGroup title="Priorities">
+        <Menu.Item key="Low-">Low</Menu.Item>
+        <Menu.Item key="Medium-">Medium</Menu.Item>
+        <Menu.Item key="Urgent-">Urgent</Menu.Item>
+      </Menu.ItemGroup>
+      <Menu.ItemGroup title="Deadlines">
+        <Menu.Item key="-today">Deadline Today</Menu.Item>
+        <Menu.Item key="-missed">Deadline Missed</Menu.Item>
+        <Menu.Item key="-no-deadline">No Deadline</Menu.Item>
+      </Menu.ItemGroup>
+      <Menu.Divider />
       <Menu.Item key="all-">All</Menu.Item>
     </Menu>
   );
@@ -60,27 +64,27 @@ const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
           value={searchInput}
           onChange={handleSearch}
         />
-        <img src="./search.svg" />
+        <img src="./search.svg" alt="Search Icon" />
       </div>
       <div className="otherActions">
         <div className="actionBtn">
           <p>Calendar</p>
-          <img src="./calender.svg" />
+          <img src="./calender.svg" alt="Calendar Icon" />
         </div>
         <div className="actionBtn">
           <p>Automation</p>
-          <img src="./stars.svg" />
+          <img src="./stars.svg" alt="Automation Icon" />
         </div>
         <div className="actionBtn">
           <Dropdown overlay={menu} trigger={["hover"]}>
             <a onClick={(e) => e.preventDefault()}>
-              <p>Filter</p> <img src="./filter.svg" />
+              <p>Filter</p> <img src="./filter.svg" alt="Filter Icon" />
             </a>
           </Dropdown>
         </div>
         <div className="actionBtn">
           <p>Share</p>
-          <img src="./share.svg" />
+          <img src="./share.svg" alt="Share Icon" />
         </div>
         <CreateTaskBtn
           title="Create task"

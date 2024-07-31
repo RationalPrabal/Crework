@@ -9,8 +9,8 @@ import {
   Form,
   Input,
   Select,
-  DatePicker,
   Popconfirm,
+  notification,
 } from "antd";
 import moment from "moment";
 import "./SingleTask.css";
@@ -46,9 +46,16 @@ const SingleTask: React.FC<SingleTaskProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [isEdited, setIsEdited] = useState(false);
-const dispatch:Dispatch<any>=useDispatch()
+  const [dateValue, setDateValue] = useState(deadline ? moment(deadline).format("YYYY-MM-DD") : "");
+  const dispatch: Dispatch<any> = useDispatch();
+
   const confirm = () => {
-   dispatch(deleteTask(_id))
+    dispatch(deleteTask(_id)).then(() => {
+      notification.success({
+        message: "Task Deleted",
+        description: "The task has been deleted successfully.",
+      });
+    });
   };
 
   const cancel = () => {
@@ -61,13 +68,18 @@ const dispatch:Dispatch<any>=useDispatch()
 
   const handleOk = () => {
     form.validateFields().then((values) => {
-let data={
-  ...values,
-  createdAt,
-  deadline:new Date(values.deadline).getTime()
-}
-dispatch(updateTask(_id,data))
-      setIsModalOpen(false);
+      let data = {
+        ...values,
+        createdAt,
+        deadline: dateValue ? new Date(dateValue).getTime() : 0,
+      };
+      dispatch(updateTask(_id, data)).then(() => {
+        notification.success({
+          message: "Task Updated",
+          description: "The task has been updated successfully.",
+        });
+        setIsModalOpen(false);
+      });
     });
   };
 
@@ -85,11 +97,17 @@ dispatch(updateTask(_id,data))
         title,
         description,
         priority,
-        deadline: deadline ? moment(deadline) : null,
+        deadline: deadline ? moment(deadline).format("YYYY-MM-DD") : "",
         status,
       });
+      setDateValue(deadline ? moment(deadline).format("YYYY-MM-DD") : "");
     }
   }, [isModalOpen, form, title, description, priority, deadline, status]);
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateValue(e.target.value);
+    form.setFieldsValue({ deadline: e.target.value });
+  };
 
   return (
     <div
@@ -105,10 +123,10 @@ dispatch(updateTask(_id,data))
           {priority}
         </button>
       )}
-      {deadline!==0 && (
+      {deadline !== 0 && (
         <div className="singleTaskDeadline">
           <img src="./clock.svg" alt="clock icon" />
-          <p>{dateformat(deadline||0)}</p>
+          <p>{dateformat(deadline || 0)}</p>
         </div>
       )}
       <div className="singleTaskEdit">
@@ -197,10 +215,10 @@ dispatch(updateTask(_id,data))
             label="Deadline"
             name="deadline"
           >
-            <DatePicker
-              format="YYYY-MM-DD"
-              value={form.getFieldValue('deadline') ? moment(form.getFieldValue('deadline')) : null}
-              onChange={(date) => form.setFieldsValue({ deadline: date })}
+            <Input
+              type="date"
+              value={dateValue}
+              onChange={handleDateChange}
             />
           </Form.Item>
         </Form>
