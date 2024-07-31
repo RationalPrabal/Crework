@@ -29,6 +29,39 @@
   - Search for tasks by title or description
   - Filter tasks based on priority, status, and deadlines
 
+
+## Installation
+
+### Prerequisites
+
+- Node.js
+- MongoDB
+- Git
+
+### Setup
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/RationalPrabal/Crework.git
+   cd Crework
+2. Navigate to Backend folder and create an env file
+    ```
+   MONGO_URI=your mongo uri
+   PORT= your port 
+   JWT_SECRET=your jwt secret
+    
+   npm i
+   npm run dev
+   
+3. Navigate to Backend folder and create an env file
+   ```
+   NEXT_PUBLIC_API_URL=your deployed backend
+   npm i
+   npm run dev
+
+
+
 - **Calendar View**
   - View tasks in a calendar format based on deadlines
 
