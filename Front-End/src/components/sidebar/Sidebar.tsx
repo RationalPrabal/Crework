@@ -14,8 +14,9 @@ import { Dispatch } from "redux";
 
 const Sidebar: React.FC = () => {
   const [open, setOpen] = useState(false);
- const { name } = useSelector((store: RootState) => store.auth.user);
- const dispatch:Dispatch<any>= useDispatch()
+  const { name } = useSelector((store: RootState) => store.auth.user);
+  const dispatch: Dispatch<any> = useDispatch();
+
   const handleCreateTaskClick = () => {
     setOpen(true);
   };
@@ -24,9 +25,9 @@ const Sidebar: React.FC = () => {
     setOpen(false);
   };
 
-  useEffect(()=>{
-dispatch(getUserDetails())
-  },[])
+  useEffect(() => {
+    dispatch(getUserDetails());
+  }, []);
 
   return (
     <div className="sidebar">
@@ -49,7 +50,14 @@ dispatch(getUserDetails())
               <img src="./arrow.svg" alt="Arrow" />
             </div>
           </div>
-          <button className="sidebarLogoutBtn" onClick={()=>{dispatch(logout())}}>Logout</button>
+          <button
+            className="sidebarLogoutBtn"
+            onClick={() => {
+              dispatch(logout());
+            }}
+          >
+            Logout
+          </button>
         </div>
         <div className="sidebarNav">
           {navData?.map((elem, i) => (
@@ -63,13 +71,21 @@ dispatch(getUserDetails())
           style={{ height: "50px" }}
         />
       </div>
+      <div className="extraFeatures">
+        <h2>Extra features I developed</h2>
+        <ul>
+          <li>✔️ Search tasks using title and description</li>
+          <li>✔️ Filter tasks by priority and deadline</li>
+          <li>✔️ Open calendar and view all tasks by their deadline</li>
+        </ul>
+      </div>
       <div className="downBtn">
         <div>
           <img src="./download.svg" />
         </div>
         <div>
           <h1>Download the app</h1>
-          <p>Get the full experience </p>
+          <p>Get the full experience</p>
         </div>
       </div>
       <AddTaskDrawer open={open} onClose={handleClose} />

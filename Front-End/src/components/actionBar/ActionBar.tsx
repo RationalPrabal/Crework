@@ -1,10 +1,11 @@
 "use client";
+
 import React, { useState } from "react";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Modal, Button } from "antd";
 import "./ActionBar.css";
 import CreateTaskBtn from "../buttons/CreateTaskBtn";
 import AddTaskDrawer from "../drawer/AddTaskDrawer";
-
+import TaskCalendar from "../taskCalender/taskCalender";
 interface ActionBarProps {
   setSearchQuery: (query: string) => void;
   setFilter: (filter: { priority?: string; deadline?: string }) => void;
@@ -12,6 +13,7 @@ interface ActionBarProps {
 
 const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
   const [open, setOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
   const handleCreateTaskClick = () => {
@@ -40,17 +42,15 @@ const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.ItemGroup title="Priorities">
+      <Menu.ItemGroup title="Priority">
         <Menu.Item key="Low-">Low</Menu.Item>
         <Menu.Item key="Medium-">Medium</Menu.Item>
         <Menu.Item key="Urgent-">Urgent</Menu.Item>
       </Menu.ItemGroup>
-      <Menu.ItemGroup title="Deadlines">
-        <Menu.Item key="-today">Deadline Today</Menu.Item>
-        <Menu.Item key="-missed">Deadline Missed</Menu.Item>
-        <Menu.Item key="-no-deadline">No Deadline</Menu.Item>
+      <Menu.ItemGroup title="Deadline">
+        <Menu.Item key="-today">Ending today</Menu.Item>
+        <Menu.Item key="-missed">Ended already</Menu.Item>
       </Menu.ItemGroup>
-      <Menu.Divider />
       <Menu.Item key="all-">All</Menu.Item>
     </Menu>
   );
@@ -64,27 +64,27 @@ const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
           value={searchInput}
           onChange={handleSearch}
         />
-        <img src="./search.svg" alt="Search Icon" />
+        <img src="./search.svg" />
       </div>
       <div className="otherActions">
-        <div className="actionBtn">
+        <div className="actionBtn" onClick={() => setCalendarOpen(true)}>
           <p>Calendar</p>
-          <img src="./calender.svg" alt="Calendar Icon" />
+          <img src="./calender.svg" />
         </div>
         <div className="actionBtn">
           <p>Automation</p>
-          <img src="./stars.svg" alt="Automation Icon" />
+          <img src="./stars.svg" />
         </div>
         <div className="actionBtn">
           <Dropdown overlay={menu} trigger={["hover"]}>
             <a onClick={(e) => e.preventDefault()}>
-              <p>Filter</p> <img src="./filter.svg" alt="Filter Icon" />
+              <p>Filter</p> <img src="./filter.svg" />
             </a>
           </Dropdown>
         </div>
         <div className="actionBtn">
           <p>Share</p>
-          <img src="./share.svg" alt="Share Icon" />
+          <img src="./share.svg" />
         </div>
         <CreateTaskBtn
           title="Create task"
@@ -94,6 +94,18 @@ const ActionBar: React.FC<ActionBarProps> = ({ setSearchQuery, setFilter }) => {
         />
         <AddTaskDrawer open={open} onClose={handleClose} />
       </div>
+      <Modal
+        title="Calendar"
+        visible={calendarOpen}
+        onCancel={() => setCalendarOpen(false)}
+        footer={[
+          <Button key="close" onClick={() => setCalendarOpen(false)}>
+            Close
+          </Button>,
+        ]}
+      >
+        <TaskCalendar />
+      </Modal>
     </div>
   );
 };

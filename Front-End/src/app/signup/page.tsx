@@ -18,7 +18,6 @@ const Login: React.FC = () => {
   const {loading,error,user,token,errorMessage}=useSelector((store:RootState)=>store.auth)
   const dispatch:Dispatch<any> = useDispatch();
   const router = useRouter();
-console.log(user)
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     let data={

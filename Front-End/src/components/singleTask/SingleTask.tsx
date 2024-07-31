@@ -50,12 +50,7 @@ const SingleTask: React.FC<SingleTaskProps> = ({
   const dispatch: Dispatch<any> = useDispatch();
 
   const confirm = () => {
-    dispatch(deleteTask(_id)).then(() => {
-      notification.success({
-        message: "Task Deleted",
-        description: "The task has been deleted successfully.",
-      });
-    });
+    dispatch(deleteTask(_id))
   };
 
   const cancel = () => {
@@ -73,13 +68,8 @@ const SingleTask: React.FC<SingleTaskProps> = ({
         createdAt,
         deadline: dateValue ? new Date(dateValue).getTime() : 0,
       };
-      dispatch(updateTask(_id, data)).then(() => {
-        notification.success({
-          message: "Task Updated",
-          description: "The task has been updated successfully.",
-        });
-        setIsModalOpen(false);
-      });
+      dispatch(updateTask(_id, data))
+      setIsModalOpen(false);
     });
   };
 
